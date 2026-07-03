@@ -1,7 +1,7 @@
 // constants/Colors.ts
 export const Colors = {
   // Backgrounds
-  background: '#121212',
+  background: '#1C1C1C',
   card: '#1E1E1E',
   input: '#2A2A2A',
   
