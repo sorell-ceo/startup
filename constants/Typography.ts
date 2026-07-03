@@ -5,17 +5,17 @@ import { Colors } from './Colors';
 export const Typography = StyleSheet.create({
   h1: {
     fontFamily: 'Onest_500Medium',
-    fontSize: 36,
+    fontSize: 28,
     color: Colors.textPrimary,
     letterSpacing: -2,
-    lineHeight: 40,
+    lineHeight: 30,
   },
   h2: {
-    fontFamily: 'Onest_700Bold',
-    fontSize: 50,
+    fontFamily: 'Onest_500Medium',
+    fontSize: 32,
     color: Colors.textPrimary,
-    letterSpacing: -0.9,
-    lineHeight: 34,
+    letterSpacing: -0.8,
+    lineHeight: 32,
   },
   h3: {
     fontFamily: 'PlusJakartaSans_600SemiBold',
@@ -25,11 +25,11 @@ export const Typography = StyleSheet.create({
     lineHeight: 28,
   },
   body: {
-    fontFamily: 'PlusJakartaSans_500Medium',
+    fontFamily: 'PlusJakartaSans_400Regular',
     fontSize: 16,
     color: Colors.textSecondary,
     lineHeight: 24,
-    letterSpacing: -0.7,
+    letterSpacing: -0.3,
   },
   bodyBold: {
     fontFamily: 'Onest_600SemiBold',
@@ -44,8 +44,9 @@ export const Typography = StyleSheet.create({
     lineHeight: 18,
   },
   button: {
-    fontFamily: 'PlusJakartaSans_600SemiBold',
+    fontFamily: 'Onest_600SemiBold',
     fontSize: 16,
-    color: Colors.textPrimary,
+    color: Colors.buttonText,
+    letterSpacing: -0.5,
   },
 });

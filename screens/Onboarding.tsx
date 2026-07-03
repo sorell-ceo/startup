@@ -1,6 +1,7 @@
 // screens/Onboarding.tsx
 import LottieView from 'lottie-react-native';
-import React, { useRef, useState } from 'react';
+
+import React, { useEffect, useRef, useState } from 'react';
 import {
   Dimensions,
   FlatList,
@@ -12,13 +13,6 @@ import {
 import { Colors } from '../constants/Colors';
 import { Slide, slides } from '../constants/OnboardingData';
 import { Typography } from '../constants/Typography';
-
-<LottieView
-  source={require('../assets/Untitled file.json')}
-  autoPlay
-  loop
-  style={{ width: 150, height: 150 }}
-/>
 
 const { width, height } = Dimensions.get('window');
 
@@ -44,16 +38,8 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
     }
   };
 
-  const renderSlide = ({ item }: { item: Slide }) => (
-  <View style={styles.slide}>
-    <Text style={[Typography.h1, styles.titleExtra]}>{item.title}</Text>
-    <Text style={[Typography.body, styles.subtitleExtra]}>{item.subtitle}</Text>
-    <View style={styles.dotsContainer}>{renderDots()}</View>
-  </View>
-);
-
-  const renderDots = () => {
-    return slides.map((_, i) => (
+  const renderDots = () =>
+    slides.map((_, i) => (
       <View
         key={i}
         style={[
@@ -62,7 +48,48 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
         ]}
       />
     ));
-  };
+
+
+const lottieRef = useRef<LottieView>(null);
+const hasPlayedRef = useRef(false);
+
+const lottieRef2 = useRef<LottieView>(null);
+const hasPlayedRef2 = useRef(false);
+
+useEffect(() => {
+  if (currentIndex === 1 && !hasPlayedRef.current) {
+    lottieRef.current?.play();
+    hasPlayedRef.current = true;
+  }
+  if (currentIndex === 2 && !hasPlayedRef2.current) {
+    lottieRef2.current?.play();
+    hasPlayedRef2.current = true;
+  }
+}, [currentIndex]);
+
+  const renderSlide = ({ item }: { item: Slide }) => (
+  <View style={styles.slide}>
+    {item.id === '2' && (
+  <LottieView
+    ref={lottieRef}
+    source={require('../assets/Untitled file.json')}
+    loop={false}
+    style={styles.lottie}
+  />
+)}
+{item.id === '3' && (
+  <LottieView
+    ref={lottieRef2}
+    source={require('../assets/3rd_slide.json')}
+    loop={false}
+    style={styles.lottie}
+  />
+)}
+    <Text style={[Typography.h2, styles.titleExtra]}>{item.title}</Text>
+    <Text style={[Typography.body, styles.subtitleExtra]}>{item.subtitle}</Text>
+    <View style={styles.dotsContainer}>{renderDots()}</View>
+  </View>
+);
 
   return (
     <View style={styles.container}>
@@ -79,11 +106,13 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
       />
 
       <View style={styles.footer}>
-        <TouchableOpacity onPress={goNext} style={styles.nextButtonWrapper}>
-          <View style={styles.nextButtonGradient}>
-            <Text style={Typography.button}>{currentIndex === slides.length - 1 ? 'Get Started' : 'Next'}</Text>
-          </View>
-        </TouchableOpacity>
+        <TouchableOpacity onPress={goNext} style={styles.nextButtonWrapper} activeOpacity={0.85}>
+  <View style={[styles.nextButtonGradient, { backgroundColor: Colors.buttonPrimary }]}>
+    <Text style={Typography.button}>
+      {currentIndex === slides.length - 1 ? 'Get Started' : 'Next'}
+    </Text>
+  </View>
+</TouchableOpacity>
       </View>
     </View>
   );
@@ -100,8 +129,14 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'center',
     paddingHorizontal: 40,
-    paddingBottom: 80,
+    paddingBottom: 100,
   },
+  lottie: {
+  width: 150,
+  height: 150,
+  marginTop: 20,
+  marginBottom: 5,
+},
   titleExtra: {
     textAlign: 'center',
     marginBottom: 16,
@@ -112,7 +147,7 @@ const styles = StyleSheet.create({
   },
   footer: {
     position: 'absolute',
-    bottom: 60,
+    bottom: 100, //Button position from bottom
     left: 0,
     right: 0,
     alignItems: 'center',
@@ -120,7 +155,7 @@ const styles = StyleSheet.create({
   },
   dotsContainer: {
     flexDirection: 'row',
-    marginTop: 20,
+    marginTop: 25,
   },
   dot: {
     width: 6,
@@ -129,13 +164,13 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   nextButtonWrapper: {
-    borderRadius: 30,
+    borderRadius: 8,
     overflow: 'hidden',
-    width: '100%',
+    width: '88%',
   },
   nextButtonGradient: {
-    paddingVertical: 14,
-    paddingHorizontal: 28,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
     alignItems: 'center',
     justifyContent: 'center',
     width: '100%',

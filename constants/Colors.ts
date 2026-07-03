@@ -15,7 +15,8 @@ export const Colors = {
   gradientEnd: '#0F74F9',
   
   //Buttons Color
-  buttomPrimary: '#C9D4DC',
+  buttonPrimary: '#0A9E83',
+  buttonText: '#C9D4DC',
   // Functional
   primary: '#0A9E83',
 };
