@@ -5,16 +5,15 @@ export interface Slide {
   subtitle: string;
 }
 
-// 👇 Edit these 4 slides whenever you want! Change text, add more, remove some.
 export const slides: Slide[] = [
   {
     id: '1',
-    title: 'No Aunties Allowed',
-    subtitle: 'Your campus. Your rules. No family, no relatives, no judges.',
+    title: 'YappOut',
+    subtitle: 'Indias First App for Only Verified Students, No Family member watching here!',
   },
   {
     id: '2',
-    title: 'Verified You, Private Them',
+    title: 'Verified you, private them',
     subtitle: "Prove you're a real student. Post under your chosen persona, not your real name.",
   },
   {

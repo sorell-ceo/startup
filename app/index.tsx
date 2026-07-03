@@ -1,34 +1,43 @@
-import { StyleSheet, Text, View } from "react-native";
+// App.js
+import {
+  Onest_400Regular,
+  Onest_500Medium,
+  Onest_600SemiBold,
+  Onest_700Bold,
+} from '@expo-google-fonts/onest';
+import {
+  PlusJakartaSans_400Regular,
+  PlusJakartaSans_500Medium,
+  PlusJakartaSans_600SemiBold,
+} from '@expo-google-fonts/plus-jakarta-sans';
+import * as Font from 'expo-font';
+import React, { useEffect, useState } from 'react';
+import { ActivityIndicator, View } from 'react-native';
+import { Colors } from '../constants/Colors';
+import Onboarding from '../screens/Onboarding';
 
-export default function Page() {
-  return (
-    <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.title}>Hello World</Text>
-        <Text style={styles.subtitle}>This is the first page of your app.</Text>
+export default function App() {
+  const [fontsLoaded, setFontsLoaded] = useState(false);
+
+  useEffect(() => {
+    Font.loadAsync({
+      PlusJakartaSans_400Regular,
+      PlusJakartaSans_600SemiBold,
+      PlusJakartaSans_500Medium,
+      Onest_700Bold,
+      Onest_400Regular,
+      Onest_600SemiBold,
+      Onest_500Medium,
+    }).then(() => setFontsLoaded(true));
+  }, []);
+
+  if (!fontsLoaded) {
+    return (
+      <View style={{ flex: 1, backgroundColor: Colors.background, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color={Colors.gradientStart} />
       </View>
-    </View>
-  );
-}
+    );
+  }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 24,
-  },
-  main: {
-    flex: 1,
-    justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-  subtitle: {
-    fontSize: 36,
-    color: "#38434D",
-  },
-});
+  return <Onboarding onFinish={() => {}} />;
+}
