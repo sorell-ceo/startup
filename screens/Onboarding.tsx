@@ -45,11 +45,12 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
   };
 
   const renderSlide = ({ item }: { item: Slide }) => (
-    <View style={styles.slide}>
-      <Text style={[Typography.h1, styles.titleExtra]}>{item.title}</Text>
-      <Text style={[Typography.body, styles.subtitleExtra]}>{item.subtitle}</Text>
-    </View>
-  );
+  <View style={styles.slide}>
+    <Text style={[Typography.h1, styles.titleExtra]}>{item.title}</Text>
+    <Text style={[Typography.body, styles.subtitleExtra]}>{item.subtitle}</Text>
+    <View style={styles.dotsContainer}>{renderDots()}</View>
+  </View>
+);
 
   const renderDots = () => {
     return slides.map((_, i) => (
@@ -78,14 +79,10 @@ export default function Onboarding({ onFinish }: OnboardingProps) {
       />
 
       <View style={styles.footer}>
-        <View style={styles.dotsContainer}>{renderDots()}</View>
-
-        <TouchableOpacity style={styles.nextButtonWrapper} onPress={goNext} activeOpacity={0.8}>
-          <View style={[styles.nextButtonGradient, { backgroundColor: Colors.buttomPrimary }]}>
-  <Text style={[Typography.button, { color: '#393939' }]}>
-    {currentIndex === slides.length - 1 ? "Let's Go 🚀" : 'Next →'}
-  </Text>
-</View>
+        <TouchableOpacity onPress={goNext} style={styles.nextButtonWrapper}>
+          <View style={styles.nextButtonGradient}>
+            <Text style={Typography.button}>{currentIndex === slides.length - 1 ? 'Get Started' : 'Next'}</Text>
+          </View>
         </TouchableOpacity>
       </View>
     </View>
@@ -100,9 +97,10 @@ const styles = StyleSheet.create({
   slide: {
     width: width,
     height: height * 0.75,
-    justifyContent: 'center',
+    justifyContent: 'flex-end',
     alignItems: 'center',
     paddingHorizontal: 40,
+    paddingBottom: 80,
   },
   titleExtra: {
     textAlign: 'center',
@@ -117,28 +115,29 @@ const styles = StyleSheet.create({
     bottom: 60,
     left: 0,
     right: 0,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 30,
   },
   dotsContainer: {
     flexDirection: 'row',
+    marginTop: 20,
   },
   dot: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
-    marginHorizontal: 6,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginHorizontal: 4,
   },
   nextButtonWrapper: {
     borderRadius: 30,
     overflow: 'hidden',
+    width: '100%',
   },
   nextButtonGradient: {
     paddingVertical: 14,
     paddingHorizontal: 28,
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
 });
