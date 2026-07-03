@@ -14,7 +14,7 @@ import * as Font from 'expo-font';
 import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { Colors } from '../constants/Colors';
-import Onboarding from '../screens/Onboarding';
+import Onboarding from './Onboarding';
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
