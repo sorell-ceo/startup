@@ -31,6 +31,13 @@ export const Typography = StyleSheet.create({
     lineHeight: 24,
     letterSpacing: -0.3,
   },
+    impBody: {
+    fontFamily: 'Onest_400Regular',
+    fontSize: 16,
+    color: Colors.textPrimary,
+    lineHeight: 24,
+    letterSpacing: -0.3,
+  },
   bodyBold: {
     fontFamily: 'Onest_600SemiBold',
     fontSize: 16,

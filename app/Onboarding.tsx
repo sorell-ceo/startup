@@ -1,5 +1,6 @@
 // screens/Onboarding.tsx
 import LottieView from 'lottie-react-native';
+import "../assets/slide2.json";
 
 import React, { useEffect, useRef, useState } from 'react';
 import {
@@ -72,7 +73,7 @@ useEffect(() => {
     {item.id === '2' && (
   <LottieView
     ref={lottieRef}
-    source={require('../assets/Untitled file.json')}
+    source={require('../assets/slide2.json')}
     loop={false}
     style={styles.lottie}
   />
