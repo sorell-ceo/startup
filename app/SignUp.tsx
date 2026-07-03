@@ -2,13 +2,13 @@
 import { useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    KeyboardAvoidingView,
-    Platform,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { Typography } from '../constants/Typography';
@@ -48,7 +48,7 @@ export default function SignUp() {
       return;
     }
 
-    router.push({ pathname: '../screens/verify-otp', params: { email } });
+    router.push({ pathname: './verify-otp', params: { email } });
   };
 
   return (

@@ -42,7 +42,7 @@ export default function VerifyOtp() {
       return;
     }
 
-    router.push('../screens/setup-profile');
+    router.push('./setup-profile');
   };
 
   const handleResend = async () => {
