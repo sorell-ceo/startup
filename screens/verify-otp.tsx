@@ -1,54 +1,53 @@
-// app/signup.tsx
-import { useRouter } from 'expo-router';
+// app/verify-otp.tsx
+import { useLocalSearchParams, useRouter } from 'expo-router';
 import React, { useState } from 'react';
 import {
-    KeyboardAvoidingView,
-    Platform,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  KeyboardAvoidingView,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { Colors } from '../constants/Colors';
 import { Typography } from '../constants/Typography';
 import { supabase } from '../lib/supabase';
 
-const ALLOWED_DOMAIN = '@nitkkr.ac.in';
-
-export default function SignUp() {
+export default function VerifyOtp() {
   const router = useRouter();
-  const [email, setEmail] = useState('');
+  const { email } = useLocalSearchParams<{ email: string }>();
+  const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const isValidEmail = (value: string) => value.toLowerCase().endsWith(ALLOWED_DOMAIN);
-
-  const handleContinue = async () => {
-    if (!email.includes('@')) {
-      setError('Enter a valid email');
-      return;
-    }
-    if (!isValidEmail(email)) {
-      setError(`Only ${ALLOWED_DOMAIN} emails allowed`);
+  const handleVerify = async () => {
+    if (otp.length !== 6) {
+      setError('Enter the 6-digit code');
       return;
     }
     setError('');
     setLoading(true);
 
-    const { error: otpError } = await supabase.auth.signInWithOtp({
+    const { error: verifyError } = await supabase.auth.verifyOtp({
       email,
-      options: { shouldCreateUser: true },
+      token: otp,
+      type: 'email',
     });
 
     setLoading(false);
 
-    if (otpError) {
-      setError(otpError.message);
+    if (verifyError) {
+      setError(verifyError.message);
       return;
     }
 
-    router.push({ pathname: '../screens/verify-otp', params: { email } });
+    router.push('../screens/setup-profile');
+  };
+
+  const handleResend = async () => {
+    setError('');
+    await supabase.auth.signInWithOtp({ email, options: { shouldCreateUser: true } });
   };
 
   return (
@@ -57,35 +56,40 @@ export default function SignUp() {
       behavior={Platform.OS === 'ios' ? 'padding' : undefined}
     >
       <View style={styles.content}>
-        <Text style={[Typography.h2, styles.title]}>Let's Create Your Account</Text>
+        <Text style={[Typography.h2, styles.title]}>Verify Your Email</Text>
         <Text style={[Typography.body, styles.subtitle]}>
-          Use your college email — verification keeps this space real.
+          Code sent to {email}
         </Text>
 
         <TextInput
           style={styles.input}
-          placeholder="you@college.ac.in"
+          placeholder="000000"
           placeholderTextColor={Colors.textMuted}
-          value={email}
+          value={otp}
           onChangeText={(text) => {
-            setEmail(text);
+            setOtp(text.replace(/[^0-9]/g, ''));
             if (error) setError('');
           }}
-          keyboardType="email-address"
-          autoCapitalize="none"
-          autoCorrect={false}
+          keyboardType="number-pad"
+          maxLength={6}
           editable={!loading}
         />
 
         {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
         <TouchableOpacity
-          onPress={handleContinue}
+          onPress={handleVerify}
           style={[styles.button, loading && { opacity: 0.6 }]}
           activeOpacity={0.85}
           disabled={loading}
         >
-          <Text style={Typography.button}>{loading ? 'Sending...' : 'Continue'}</Text>
+          <Text style={Typography.button}>{loading ? 'Verifying...' : 'Verify'}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={handleResend} style={{ marginTop: 20 }}>
+          <Text style={[Typography.caption, { color: Colors.gradientStart }]}>
+            Resend code
+          </Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -106,6 +110,8 @@ const styles = StyleSheet.create({
     fontFamily: 'PlusJakartaSans_500Medium',
     fontSize: 16,
     marginBottom: 8,
+    letterSpacing: 8,
+    textAlign: 'center',
   },
   errorText: {
     color: '#FF5C5C',
