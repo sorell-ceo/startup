@@ -1,14 +1,14 @@
 // constants/Colors.ts
 export const Colors = {
   // Backgrounds
-  background: '#13151A',
+  background: '#080808',
   card: '#1E1E1E',
   input: '#2A2A2A',
   
   // Text Hierarchy
-  textPrimary: '#C9D4DC',
-  textSecondary: '#A0A0A0',
-  textMuted: '#707070',
+  textPrimary: '#e0fff9',
+  textSecondary: '#819491',
+  textMuted: '#819491',
   
   // Brand Gradient
   gradientStart: '#0A9E83',

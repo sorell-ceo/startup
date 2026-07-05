@@ -165,7 +165,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 4,
   },
   nextButtonWrapper: {
-    borderRadius: 8,
+    borderRadius: 32,
     overflow: 'hidden',
     width: '88%',
   },

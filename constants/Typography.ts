@@ -18,11 +18,11 @@ export const Typography = StyleSheet.create({
     lineHeight: 32,
   },
   h3: {
-    fontFamily: 'PlusJakartaSans_600SemiBold',
-    fontSize: 22,
+    fontFamily: 'Barlow_500Medium',
+    fontSize: 17,
     color: Colors.textPrimary,
-    letterSpacing: -0.2,
-    lineHeight: 28,
+    letterSpacing: -0.20,
+    lineHeight: 20,
   },
   body: {
     fontFamily: 'PlusJakartaSans_400Regular',
