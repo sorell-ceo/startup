@@ -17,6 +17,7 @@ export default function App() {
   const router = useRouter();
 
   const [fontsLoaded, fontError] = useFonts({
+    // --- Google Fonts (npm package, no local files needed) ---
     PlusJakartaSans_400Regular,
     PlusJakartaSans_600SemiBold,
     PlusJakartaSans_500Medium,
@@ -30,6 +31,45 @@ export default function App() {
     GoogleSansFlex_400Regular,
     GoogleSansFlex_500Medium,
     GoogleSansFlex_600SemiBold,
+
+    // --- Local files from assets/fonts/ ---
+    // 42dot Sans (static weights only — variable .ttf intentionally excluded, see note above)
+    '42dotSans-Light': require('../assets/fonts/42dotSans-Light.ttf'),
+    '42dotSans-Regular': require('../assets/fonts/42dotSans-Regular.ttf'),
+    '42dotSans-Medium': require('../assets/fonts/42dotSans-Medium.ttf'),
+    '42dotSans-Bold': require('../assets/fonts/42dotSans-Bold.ttf'),
+    '42dotSans-ExtraBold': require('../assets/fonts/42dotSans-ExtraBold.ttf'),
+
+    // Funnel Sans (italics excluded per request)
+    'FunnelSans-Light': require('../assets/fonts/FunnelSans-Light.ttf'),
+    'FunnelSans-Regular': require('../assets/fonts/FunnelSans-Regular.ttf'),
+    'FunnelSans-Medium': require('../assets/fonts/FunnelSans-Medium.ttf'),
+    'FunnelSans-Bold': require('../assets/fonts/FunnelSans-Bold.ttf'),
+    'FunnelSans-ExtraBold': require('../assets/fonts/FunnelSans-ExtraBold.ttf'),
+
+    //Host Grotesk (italics excluded per request)
+    'HostGrotesk-Light': require('../assets/fonts/HostGrotesk-Light.ttf'),
+    'HostGrotesk-Regular': require('../assets/fonts/HostGrotesk-Regular.ttf'),
+    'HostGrotesk-Medium': require('../assets/fonts/HostGrotesk-Medium.ttf'),
+    'HostGrotesk-Bold': require('../assets/fonts/HostGrotesk-Bold.ttf'),
+    'HostGrotesk-ExtraBold': require('../assets/fonts/HostGrotesk-ExtraBold.ttf'),
+    'HostGrotesk-SemiBold': require('../assets/fonts/HostGrotesk-SemiBold.ttf'),
+
+    //LTInstitute-1 Font
+    'LTInstitute-1-Regular': require('../assets/fonts/LTInstitute-1.otf'),
+
+    //Neutral Sans (italics excluded per request)
+    'NeutralSans-Regular': require('../assets/fonts/NeutralSans-Regular.otf'),
+    'NeutralSans-Medium': require('../assets/fonts/NeutralSans-Medium.otf'),
+    'NeutralSans-Bold': require('../assets/fonts/NeutralSans-Bold.otf'),
+
+    //OakSans (italics excluded per request)
+    'OakSans-Regular': require('../assets/fonts/OakSans-Regular.otf'),
+    'OakSans-Medium': require('../assets/fonts/OakSans-Medium.otf'),
+    'OakSans-Bold': require('../assets/fonts/OakSans-Bold.otf'),
+
+    //Rena-Regular Font
+    'Rena-Regular': require('../assets/fonts/Rena-Regular.ttf'),
   });
 
   useEffect(() => {
