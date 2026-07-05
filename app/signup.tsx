@@ -238,7 +238,7 @@ export default function SignUp() {
   // ---------- RENDER FUNCTIONS ----------
   const renderEmailStep = () => (
     <>
-      <Text style={[Typography.h2, styles.title]}>Let's Create Your Account</Text>
+      <Text style={[Typography.test2, styles.title]}>Create Your Account</Text>
       <Text style={[Typography.h3, styles.additionalText]}>
         Kindly enter <Text style={styles.highlight}>College Email ID</Text>. As it helps us verify your identity
       </Text>
@@ -560,14 +560,14 @@ const styles = StyleSheet.create({
     paddingTop: 22,
     paddingBottom: 10,
     color: Colors.textPrimary,
-    fontFamily: 'Barlow_400Regular',
+    fontFamily: 'NeutralSans-Regular',
     fontSize: 16,
     textAlignVertical: 'center',
   },
   floatingLabel: {
     position: 'absolute',
     left: 18,
-    fontFamily: 'Barlow_400Regular',
+    fontFamily: 'NeutralSans-Regular',
     backgroundColor: Colors.background,
     paddingHorizontal: 4,
     zIndex: 1,
@@ -595,7 +595,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     color: '#FF5C5C',
-    fontFamily: 'PlusJakartaSans_400Regular',
+    fontFamily: 'OakSans-Regular',
     fontSize: 13,
     marginTop: -40,
     marginBottom: 30,
@@ -635,7 +635,7 @@ const styles = StyleSheet.create({
     width: '96%',
   },
   loginButtonText: {
-    fontFamily: 'Onest_500Medium',
+    fontFamily: 'OakSans-Regular',
     fontSize: 16,
     color: Colors.textSecondary,
     textAlign: 'center',

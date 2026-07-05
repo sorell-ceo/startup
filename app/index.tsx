@@ -60,13 +60,13 @@ export default function App() {
 
     //Neutral Sans (italics excluded per request)
     'NeutralSans-Regular': require('../assets/fonts/NeutralSans-Regular.otf'),
-    'NeutralSans-Medium': require('../assets/fonts/NeutralSans-Medium.otf'),
+    'NeutralSans-Meidum': require('../assets/fonts/NeutralSans-Meidum.otf'),
     'NeutralSans-Bold': require('../assets/fonts/NeutralSans-Bold.otf'),
 
     //OakSans (italics excluded per request)
-    'OakSans-Regular': require('../assets/fonts/OakSans-Regular.otf'),
-    'OakSans-Medium': require('../assets/fonts/OakSans-Medium.otf'),
-    'OakSans-Bold': require('../assets/fonts/OakSans-Bold.otf'),
+    'OakSans-Regular': require('../assets/fonts/OakSans-Regular.ttf'),
+    'OakSans-Medium': require('../assets/fonts/OakSans-Medium.ttf'),
+    'OakSans-Bold': require('../assets/fonts/OakSans-Bold.ttf'),
 
     //Rena-Regular Font
     'Rena-Regular': require('../assets/fonts/Rena-Regular.ttf'),

@@ -56,4 +56,28 @@ export const Typography = StyleSheet.create({
     color: Colors.buttonText,
     letterSpacing: -0.5,
   },
+  test:{
+    fontFamily: 'HostGrotesk-Medium',
+    fontSize: 32,
+    color: Colors.textPrimary,
+    lineHeight: 24,
+  },
+  test2:{
+    fontFamily: 'FunnelSans-Medium',
+    fontSize: 32,
+    color: Colors.textPrimary,
+    lineHeight: 24,
+  },
+  test3: {
+    fontFamily: 'OakSans-Medium',
+    fontSize: 32,
+    color: Colors.textPrimary,
+    lineHeight: 24,
+  },
+  test4: {
+    fontFamily: 'NeutralSans-Medium',
+    fontSize: 32,
+    color: Colors.textPrimary,
+    lineHeight: 24,
+  },
 });
