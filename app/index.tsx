@@ -11,7 +11,6 @@ import { useRouter } from 'expo-router';
 import React, { useEffect } from 'react';
 import { ActivityIndicator, View } from 'react-native';
 import { Colors } from '../constants/Colors';
-import "./Onboarding";
 import Onboarding from './Onboarding';
 
 export default function App() {
@@ -33,7 +32,6 @@ export default function App() {
     GoogleSansFlex_600SemiBold,
   });
 
-  // You can log the error if needed
   useEffect(() => {
     if (fontError) {
       console.warn('Font loading error:', fontError);
@@ -48,5 +46,6 @@ export default function App() {
     );
   }
 
-  return <Onboarding onFinish={() => router.push('./signup')} />;
+  // NEW FLOW: Onboarding → Create Profile → Signup → OTP → ...
+  return <Onboarding onFinish={() => router.push('./create-profile')} />;
 }
