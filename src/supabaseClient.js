@@ -1,2 +1,0 @@
-URL='https://fquxzsphqknqdimferqk.supabase.co/rest/v1/'
-ANON_PUBLIC_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxdXh6c3BocWtucWRpbWZlcnFrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQwMTk1NTYsImV4cCI6MjA5OTU5NTU1Nn0.IgBUCLVea_8C_9ADy1vIiXiqI2SXx7uIGxOqyiZ0iWo'
