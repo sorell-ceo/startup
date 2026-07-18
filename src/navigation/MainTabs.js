@@ -1,3 +1,5 @@
+//MainTabs.js (in navigation folder)
+
 import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as Haptics from 'expo-haptics';

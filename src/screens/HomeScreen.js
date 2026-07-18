@@ -1,3 +1,5 @@
+//HomeScreen.js code
+
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
 import { ResizeMode, Video } from 'expo-av';
@@ -11,6 +13,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import CommentsSheet from '../components/CommentsSheet';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
 
@@ -21,6 +24,9 @@ export default function HomeScreen({ navigation }) {
   const [posts, setPosts] = useState([]);
   const [activeCategory, setActiveCategory] = useState('all');
   const [loading, setLoading] = useState(true);
+
+  const [commentsVisible, setCommentsVisible] = useState(false);
+  const [activePostId, setActivePostId] = useState(null);
 
   const loadPosts = useCallback(async (category) => {
     let query = supabase
@@ -68,13 +74,23 @@ export default function HomeScreen({ navigation }) {
       likeCountMap.set(l.post_id, (likeCountMap.get(l.post_id) || 0) + 1);
       if (l.user_id === user.id) myLikedSet.add(l.post_id);
     });
+    const { data: comments } = await supabase
+  .from('comments')
+  .select('post_id')
+  .in('post_id', postIds);
+
+const commentCountMap = new Map();
+(comments || []).forEach((c) => {
+  commentCountMap.set(c.post_id, (commentCountMap.get(c.post_id) || 0) + 1);
+});
 
     const merged = postsData.map((post) => ({
-      ...post,
-      profile: profileMap.get(post.user_id),
-      likeCount: likeCountMap.get(post.id) || 0,
-      likedByMe: myLikedSet.has(post.id),
-    }));
+  ...post,
+  profile: profileMap.get(post.user_id),
+  likeCount: likeCountMap.get(post.id) || 0,
+  likedByMe: myLikedSet.has(post.id),
+  commentCount: commentCountMap.get(post.id) || 0,   // <-- new
+}));
 
     setPosts(merged);
     setLoading(false);
@@ -107,6 +123,24 @@ export default function HomeScreen({ navigation }) {
       await supabase.from('likes').insert({ post_id: post.id, user_id: user.id });
     }
   };
+
+  const openComments = (postId) => {
+  setActivePostId(postId);
+  setCommentsVisible(true);
+};
+
+const closeComments = () => {
+  setCommentsVisible(false);
+  setActivePostId(null);
+};
+
+const handleCommentPosted = (postId) => {
+  setPosts((prev) =>
+    prev.map((p) =>
+      p.id === postId ? { ...p, commentCount: p.commentCount + 1 } : p
+    )
+  );
+};
 
   const renderPost = ({ item }) => (
     <View style={styles.card}>
@@ -150,9 +184,10 @@ export default function HomeScreen({ navigation }) {
           <Text style={styles.actionText}>{item.likeCount}</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.actionBtn}>
-          <Ionicons name="chatbubble-outline" size={22} color="#2c3e50" />
-        </TouchableOpacity>
+        <TouchableOpacity style={styles.actionBtn} onPress={() => openComments(item.id)}>
+  <Ionicons name="chatbubble-outline" size={22} color="#2c3e50" />
+  <Text style={styles.actionText}>{item.commentCount}</Text>
+</TouchableOpacity>
       </View>
 
       {item.caption ? (
@@ -209,6 +244,12 @@ export default function HomeScreen({ navigation }) {
       >
         <Ionicons name="add" size={30} color="#fff" />
       </TouchableOpacity>
+      <CommentsSheet
+  visible={commentsVisible}
+  postId={activePostId}
+  onClose={closeComments}
+  onCommentPosted={handleCommentPosted}
+/>
     </SafeAreaView>
   );
 }

@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
   // 5. The "Sign Up" function (calls real Supabase) - now also takes a username
   const signUp = async (email, password, username) => {
-    // Check username uniqueness BEFORE creating the auth user
+    // Check username uniqueness BEFORE creating the auth user (fast UX feedback)
     const { data: existing, error: checkError } = await supabase
       .from('profiles')
       .select('username')
@@ -48,34 +48,20 @@ export const AuthProvider = ({ children }) => {
       throw new Error('That username is already taken.');
     }
 
-    // Create the auth user
-    const signUp = async (email, password, username) => {
-  // Check username uniqueness BEFORE creating the auth user (fast UX feedback)
-  const { data: existing, error: checkError } = await supabase
-    .from('profiles')
-    .select('username')
-    .ilike('username', username)
-    .maybeSingle();
+    // Create the auth user, passing username as metadata so the DB trigger
+    // (handle_new_user) can read it via raw_user_meta_data and create the
+    // profiles row automatically — no manual insert needed here.
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: {
+        data: { username },
+      },
+    });
+    if (error) throw error;
 
-  if (checkError) throw checkError;
-  if (existing) {
-    throw new Error('That username is already taken.');
-  }
-
-  // Create the auth user, passing username as metadata so the DB trigger
-  // (handle_new_user) can read it via raw_user_meta_data and create the
-  // profiles row automatically — no manual insert needed here.
-  const { data, error } = await supabase.auth.signUp({
-    email,
-    password,
-    options: {
-      data: { username },
-    },
-  });
-  if (error) throw error;
-
-  return data;
-};
+    return data;
+  };
 
   // 6. The "Login" function (calls real Supabase)
   const signIn = async (email, password) => {
@@ -108,4 +94,4 @@ export const useAuth = () => {
     throw new Error("useAuth must be used inside an AuthProvider");
   }
   return context;
-}};
+};

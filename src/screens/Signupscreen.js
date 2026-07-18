@@ -12,12 +12,12 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
 
-const ALLOWED_DOMAINS = ['.edu', '.edu.in', '.ac.in'];
-const DEVELOPER_EXCEPTION = ['anuraglodhi2008@gmail.com','hr.sorell@gmail.com'];
+const ALLOWED_DOMAINS = ['@cumail.in', '@student.amity.edu', '@chitkara.edu.in', '.ac.in'];
+const DEVELOPER_EXCEPTION = ['anuraglodhi2008@gmail.com', 'hr.sorell@gmail.com'];
 
 const isAllowedEmail = (email) => {
   const lower = email.toLowerCase().trim();
-  if (lower === DEVELOPER_EXCEPTION) return true;
+  if (DEVELOPER_EXCEPTION.includes(lower)) return true;
   return ALLOWED_DOMAINS.some((domain) => lower.endsWith(domain));
 };
 

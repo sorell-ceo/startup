@@ -1,3 +1,5 @@
+//ProfileStacl.js
+
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import EditProfileScreen from '../screens/EditProfileScreen';
 import ProfileScreen from '../screens/ProfileScreen';
