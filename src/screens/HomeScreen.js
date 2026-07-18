@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import CommentsSheet from '../components/CommentsSheet';
+import { PostCardSkeleton } from '../components/Skeleton';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
 
@@ -225,19 +226,24 @@ const handleCommentPosted = (postId) => {
         />
       </View>
 
-      {!loading && posts.length === 0 ? (
-        <View style={styles.emptyState}>
-          <Text style={styles.emptyText}>No posts yet in this category</Text>
-        </View>
-      ) : (
-        <FlatList
-          data={posts}
-          keyExtractor={(item) => item.id}
-          renderItem={renderPost}
-          contentContainerStyle={{ paddingBottom: 100 }}
-        />
-      )}
-
+      {loading ? (
+  <View style={{ paddingTop: 10 }}>
+    <PostCardSkeleton />
+    <PostCardSkeleton />
+    <PostCardSkeleton />
+  </View>
+) : posts.length === 0 ? (
+  <View style={styles.emptyState}>
+    <Text style={styles.emptyText}>No posts yet in this category</Text>
+  </View>
+) : (
+  <FlatList
+    data={posts}
+    keyExtractor={(item) => item.id}
+    renderItem={renderPost}
+    contentContainerStyle={{ paddingBottom: 100 }}
+  />
+)}
       <TouchableOpacity
         style={styles.fab}
         onPress={() => navigation.getParent()?.navigate('CreatePost')}
