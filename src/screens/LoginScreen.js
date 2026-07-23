@@ -1,15 +1,18 @@
 // src/screens/LoginScreen.js
+import { Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
+import { StackSansHeadline_400Regular, StackSansHeadline_600SemiBold, useFonts } from '@expo-google-fonts/stack-sans-headline';
+import { BlurView } from 'expo-blur';
 import { useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
-  StyleSheet,
-  Text,
-  TextInput,
+  ImageBackground,
+  StyleSheet, Text, TextInput,
   TouchableOpacity,
-  View,
+  View
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
+
 
 export default function LoginScreen({ navigation }) {
   const [email, setEmail] = useState('');
@@ -17,6 +20,14 @@ export default function LoginScreen({ navigation }) {
   const [loading, setLoading] = useState(false);
 
   const { signIn } = useAuth();
+
+  const [fontsLoaded] = useFonts({
+    StackSansHeadline_400Regular,
+    StackSansHeadline_600SemiBold,
+    Manrope_400Regular,
+    Manrope_500Medium,
+    Manrope_600SemiBold,
+  });
 
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
@@ -34,107 +45,213 @@ export default function LoginScreen({ navigation }) {
     }
   };
 
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>univerce</Text>
-      <Text style={styles.subtitle}>Login to your account</Text>
+  if (!fontsLoaded) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator color="#3ADBB8" />
+      </View>
+    );
+  }
 
-      <TextInput
-        style={styles.input}
-        placeholder="College Email"
-        placeholderTextColor="#999"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        keyboardType="email-address"
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#999"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={true}
-        autoCapitalize="none"
-      />
-
-      <TouchableOpacity
-        style={styles.loginButton}
-        onPress={handleLogin}
-        disabled={loading}
+return (
+  <ImageBackground
+    source={require('../../assets/images/login-bg.png')}
+    resizeMode="cover"
+    style={styles.background}
+  >
+    <View style={styles.overlay}>
+      <BlurView
+        intensity={35}
+        tint="dark"
+        style={styles.card}
       >
-        {loading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.buttonText}>Login</Text>
-        )}
-      </TouchableOpacity>
+        <Text style={styles.title}>univerce</Text>
+        <Text style={styles.subtitle}>Login to your account</Text>
 
-      <TouchableOpacity
-        style={styles.signupButton}
-        onPress={() => navigation.navigate('Signup')}
-        disabled={loading}
-      >
-        <Text style={styles.signupButtonText}>Create New Account</Text>
-      </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder="College Email"
+          placeholderTextColor="rgba(255,255,255,0.45)"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="rgba(255,255,255,0.45)"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          autoCapitalize="none"
+        />
+
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#242424" />
+          ) : (
+            <Text style={styles.buttonText}>Login</Text>
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.signupButton}
+          onPress={() => navigation.navigate('Signup')}
+          disabled={loading}
+        >
+          <Text style={styles.signupButtonText}>
+            Create New Account
+          </Text>
+        </TouchableOpacity>
+      </BlurView>
     </View>
-  );
+  </ImageBackground>
+);
 }
 
 const styles = StyleSheet.create({
+
+  background: {
+    flex: 1,
+  },
+
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(5,8,12,0.45)',
+    justifyContent: 'center',
+    paddingHorizontal: 26,
+  },
+
   container: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
-    justifyContent: 'center',
-    paddingHorizontal: 30,
   },
+
+  card: {
+    borderRadius: 38,
+    overflow: 'hidden',
+
+    padding: 28,
+
+    backgroundColor: 'rgba(255,255,255,0.05)',
+
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+
+    shadowColor: '#000',
+    shadowOpacity: 0.35,
+    shadowRadius: 30,
+    shadowOffset: {
+      width: 0,
+      height: 18,
+    },
+
+    elevation: 20,
+  },
+
   title: {
-    fontSize: 42,
-    fontWeight: 'bold',
-    color: '#2c3e50',
+    fontFamily: 'Gloock-Regular',
+    fontSize: 38,
+    color: '#FFFFFF',
     textAlign: 'center',
-    marginBottom: 5,
+
+    letterSpacing: -2,
+    marginBottom: 8,
   },
+
   subtitle: {
-    fontSize: 16,
-    color: '#7f8c8d',
+    fontFamily: 'Manrope_400Regular',
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.68)',
     textAlign: 'center',
-    marginBottom: 40,
+    marginBottom: 36,
   },
+
   input: {
-    backgroundColor: '#fff',
-    paddingHorizontal: 15,
-    paddingVertical: 14,
-    borderRadius: 10,
-    marginBottom: 15,
+    fontFamily: 'Manrope_400Regular',
+
+    backgroundColor: 'rgba(255,255,255,0.06)',
+
+    borderRadius: 18,
+
     borderWidth: 1,
-    borderColor: '#ddd',
-    fontSize: 16,
+
+    borderColor: 'rgba(255,255,255,0.08)',
+
+    paddingHorizontal: 18,
+    paddingVertical: 17,
+
+    marginBottom: 16,
+
+    fontSize: 15.5,
+
+    color: '#FFFFFF',
   },
+
   loginButton: {
-    backgroundColor: '#3498db',
-    paddingVertical: 15,
-    borderRadius: 10,
+    marginTop: 12,
+
+    backgroundColor: '#53DFC1',
+
+    borderRadius: 22,
+
+    paddingVertical: 17,
+
     alignItems: 'center',
-    marginTop: 10,
+
+    shadowColor: '#53DFC1',
+
+    shadowOpacity: 0.35,
+
+    shadowRadius: 20,
+
+    shadowOffset: {
+      width: 0,
+      height: 10,
+    },
+
+    elevation: 10,
   },
+
   buttonText: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
+    fontFamily: 'StackSansHeadline_600SemiBold',
+
+    color: '#1E1E1E',
+
+    fontSize: 15,
+
+    letterSpacing: -0.2,
   },
+
   signupButton: {
-    paddingVertical: 15,
-    borderRadius: 10,
+    marginTop: 16,
+
+    borderRadius: 22,
+
+    paddingVertical: 16,
+
     alignItems: 'center',
-    marginTop: 10,
+
     borderWidth: 1,
-    borderColor: '#3498db',
+
+    borderColor: 'rgba(255,255,255,0.12)',
+
+    backgroundColor: 'rgba(255,255,255,0.03)',
   },
+
   signupButtonText: {
-    color: '#3498db',
-    fontSize: 16,
-    fontWeight: '500',
+    fontFamily: 'StackSansHeadline_400Regular',
+
+    color: '#e0fcf4',
+
+    fontSize: 14,
+
+    letterSpacing: 0.4,
   },
+
 });

@@ -187,11 +187,11 @@ export default function SignupScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#f5f5f5', justifyContent: 'center', paddingHorizontal: 30 },
+  container: { flex: 1, backgroundColor: '#0A0A0F', justifyContent: 'center', paddingHorizontal: 30 },
   title: { fontSize: 36, fontWeight: 'bold', color: '#2c3e50', textAlign: 'center', marginBottom: 5 },
   subtitle: { fontSize: 16, color: '#7f8c8d', textAlign: 'center', marginBottom: 40 },
   input: {
-    backgroundColor: '#fff',
+    backgroundColor: '#0A0A0F',
     paddingHorizontal: 15,
     paddingVertical: 14,
     borderRadius: 10,

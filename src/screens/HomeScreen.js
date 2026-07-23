@@ -1,4 +1,4 @@
-//HomeScreen.js code
+// HomeScreen.js
 
 import { Ionicons } from '@expo/vector-icons';
 import { useFocusEffect } from '@react-navigation/native';
@@ -76,22 +76,22 @@ export default function HomeScreen({ navigation }) {
       if (l.user_id === user.id) myLikedSet.add(l.post_id);
     });
     const { data: comments } = await supabase
-  .from('comments')
-  .select('post_id')
-  .in('post_id', postIds);
+      .from('comments')
+      .select('post_id')
+      .in('post_id', postIds);
 
-const commentCountMap = new Map();
-(comments || []).forEach((c) => {
-  commentCountMap.set(c.post_id, (commentCountMap.get(c.post_id) || 0) + 1);
-});
+    const commentCountMap = new Map();
+    (comments || []).forEach((c) => {
+      commentCountMap.set(c.post_id, (commentCountMap.get(c.post_id) || 0) + 1);
+    });
 
     const merged = postsData.map((post) => ({
-  ...post,
-  profile: profileMap.get(post.user_id),
-  likeCount: likeCountMap.get(post.id) || 0,
-  likedByMe: myLikedSet.has(post.id),
-  commentCount: commentCountMap.get(post.id) || 0,   // <-- new
-}));
+      ...post,
+      profile: profileMap.get(post.user_id),
+      likeCount: likeCountMap.get(post.id) || 0,
+      likedByMe: myLikedSet.has(post.id),
+      commentCount: commentCountMap.get(post.id) || 0,
+    }));
 
     setPosts(merged);
     setLoading(false);
@@ -126,22 +126,22 @@ const commentCountMap = new Map();
   };
 
   const openComments = (postId) => {
-  setActivePostId(postId);
-  setCommentsVisible(true);
-};
+    setActivePostId(postId);
+    setCommentsVisible(true);
+  };
 
-const closeComments = () => {
-  setCommentsVisible(false);
-  setActivePostId(null);
-};
+  const closeComments = () => {
+    setCommentsVisible(false);
+    setActivePostId(null);
+  };
 
-const handleCommentPosted = (postId) => {
-  setPosts((prev) =>
-    prev.map((p) =>
-      p.id === postId ? { ...p, commentCount: p.commentCount + 1 } : p
-    )
-  );
-};
+  const handleCommentPosted = (postId) => {
+    setPosts((prev) =>
+      prev.map((p) =>
+        p.id === postId ? { ...p, commentCount: p.commentCount + 1 } : p
+      )
+    );
+  };
 
   const renderPost = ({ item }) => (
     <View style={styles.card}>
@@ -180,15 +180,15 @@ const handleCommentPosted = (postId) => {
           <Ionicons
             name={item.likedByMe ? 'heart' : 'heart-outline'}
             size={24}
-            color={item.likedByMe ? '#e74c3c' : '#2c3e50'}
+            color={item.likedByMe ? '#e74c3c' : '#F7F7F7'}
           />
           <Text style={styles.actionText}>{item.likeCount}</Text>
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.actionBtn} onPress={() => openComments(item.id)}>
-  <Ionicons name="chatbubble-outline" size={22} color="#2c3e50" />
-  <Text style={styles.actionText}>{item.commentCount}</Text>
-</TouchableOpacity>
+          <Ionicons name="chatbubble-outline" size={22} color="#F7F7F7" />
+          <Text style={styles.actionText}>{item.commentCount}</Text>
+        </TouchableOpacity>
       </View>
 
       {item.caption ? (
@@ -219,7 +219,7 @@ const handleCommentPosted = (postId) => {
               onPress={() => setActiveCategory(item)}
             >
               <Text style={[styles.chipText, activeCategory === item && styles.chipTextActive]}>
-                {item}
+                {item.toUpperCase()}
               </Text>
             </TouchableOpacity>
           )}
@@ -227,62 +227,82 @@ const handleCommentPosted = (postId) => {
       </View>
 
       {loading ? (
-  <View style={{ paddingTop: 10 }}>
-    <PostCardSkeleton />
-    <PostCardSkeleton />
-    <PostCardSkeleton />
-  </View>
-) : posts.length === 0 ? (
-  <View style={styles.emptyState}>
-    <Text style={styles.emptyText}>No posts yet in this category</Text>
-  </View>
-) : (
-  <FlatList
-    data={posts}
-    keyExtractor={(item) => item.id}
-    renderItem={renderPost}
-    contentContainerStyle={{ paddingBottom: 100 }}
-  />
-)}
+        <View style={{ paddingTop: 10 }}>
+          <PostCardSkeleton />
+          <PostCardSkeleton />
+          <PostCardSkeleton />
+        </View>
+      ) : posts.length === 0 ? (
+        <View style={styles.emptyState}>
+          <Text style={styles.emptyText}>No posts yet in this category</Text>
+        </View>
+      ) : (
+        <FlatList
+          data={posts}
+          keyExtractor={(item) => item.id}
+          renderItem={renderPost}
+          contentContainerStyle={{ paddingBottom: 100 }}
+        />
+      )}
       <TouchableOpacity
         style={styles.fab}
         onPress={() => navigation.getParent()?.navigate('CreatePost')}
       >
-        <Ionicons name="add" size={30} color="#fff" />
+        <Ionicons name="add" size={30} color="#0A0A0F" />
       </TouchableOpacity>
       <CommentsSheet
-  visible={commentsVisible}
-  postId={activePostId}
-  onClose={closeComments}
-  onCommentPosted={handleCommentPosted}
-/>
+        visible={commentsVisible}
+        postId={activePostId}
+        onClose={closeComments}
+        onCommentPosted={handleCommentPosted}
+      />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#fff' },
+  container: { flex: 1, backgroundColor: '#08080c' },
   header: {
     paddingHorizontal: 20,
     paddingVertical: 14,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
+    borderBottomColor: '#1C1C22',
   },
-  logo: { fontSize: 22, fontWeight: 'bold', color: '#2c3e50' },
-  chipRow: { paddingVertical: 10, borderBottomWidth: 1, borderBottomColor: '#f5f5f5' },
+  logo: {
+    fontFamily: 'Gloock-Regular',
+    fontSize: 24,
+    color: '#F7F7F7',
+  },
+  chipRow: {
+    paddingVertical: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#1C1C22',
+  },
   chip: {
     paddingHorizontal: 14,
     paddingVertical: 7,
     borderRadius: 20,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#222227',
     marginRight: 8,
+    borderWidth: 0.8,
+    borderColor: 'rgba(241, 242, 248, 0.14)',
   },
-  chipActive: { backgroundColor: '#3498db' },
-  chipText: { color: '#7f8c8d', fontSize: 13, fontWeight: '600', textTransform: 'capitalize' },
-  chipTextActive: { color: '#fff' },
+  chipActive: { backgroundColor: '#3ADBB8', borderColor: '#3ADBB8' },
+  chipText: {
+    fontFamily: 'StackSansHeadline_600SemiBold',
+    color: '#B8B4CC',
+    fontSize: 12,
+    letterSpacing: 0.5,
+  },
+  chipTextActive: { color: '#0A0A0F' },
   emptyState: { flex: 1, justifyContent: 'center', alignItems: 'center' },
-  emptyText: { color: '#7f8c8d', fontSize: 15 },
-  card: { marginBottom: 20, borderBottomWidth: 1, borderBottomColor: '#f5f5f5', paddingBottom: 14 },
+  emptyText: { fontFamily: 'Manrope-Regular', color: '#7f7f8a', fontSize: 15 },
+  card: {
+    marginBottom: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#1C1C22',
+    paddingBottom: 14,
+  },
   cardHeader: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -293,23 +313,57 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: '#3498db',
+    backgroundColor: '#3ADBB8',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 10,
   },
-  avatarSmallText: { color: '#fff', fontWeight: 'bold', fontSize: 14 },
-  username: { fontWeight: '600', color: '#2c3e50', fontSize: 14 },
-  locationTag: { color: '#7f8c8d', fontSize: 11, marginTop: 1 },
-  categoryBadge: { backgroundColor: '#eaf4fc', paddingHorizontal: 10, paddingVertical: 4, borderRadius: 12 },
-  categoryText: { color: '#3498db', fontSize: 11, fontWeight: '700', textTransform: 'capitalize' },
-  mediaWrapper: { width: '100%', height: 400, backgroundColor: '#f5f5f5' },
+  avatarSmallText: {
+    fontFamily: 'Manrope-Bold',
+    color: '#0A0A0F',
+    fontSize: 14,
+  },
+  username: {
+    fontFamily: 'Manrope-SemiBold',
+    color: '#F7F7F7',
+    fontSize: 14,
+  },
+  locationTag: {
+    fontFamily: 'Manrope-Regular',
+    color: '#7f7f8a',
+    fontSize: 11,
+    marginTop: 1,
+  },
+  categoryBadge: {
+    backgroundColor: 'rgba(58, 219, 184, 0.12)',
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  categoryText: {
+    fontFamily: 'StackSansHeadline_600SemiBold',
+    color: '#3ADBB8',
+    fontSize: 11,
+    textTransform: 'uppercase',
+  },
+  mediaWrapper: { width: '100%', height: 400, backgroundColor: '#111118' },
   media: { width: '100%', height: '100%' },
   actionsRow: { flexDirection: 'row', paddingHorizontal: 16, paddingTop: 10, gap: 20 },
   actionBtn: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  actionText: { fontSize: 14, color: '#2c3e50', fontWeight: '600' },
-  caption: { paddingHorizontal: 16, marginTop: 8, fontSize: 14, color: '#2c3e50', lineHeight: 19 },
-  captionUsername: { fontWeight: '700' },
+  actionText: {
+    fontFamily: 'Manrope-SemiBold',
+    fontSize: 14,
+    color: '#F7F7F7',
+  },
+  caption: {
+    fontFamily: 'Manrope-Regular',
+    paddingHorizontal: 16,
+    marginTop: 8,
+    fontSize: 14,
+    color: '#D6D4E0',
+    lineHeight: 19,
+  },
+  captionUsername: { fontFamily: 'Manrope-SemiBold', letterSpacing:-0.4,},
   fab: {
     position: 'absolute',
     bottom: 24,
@@ -317,12 +371,12 @@ const styles = StyleSheet.create({
     width: 56,
     height: 56,
     borderRadius: 28,
-    backgroundColor: '#3498db',
+    backgroundColor: '#3ADBB8',
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 5,
     shadowColor: '#000',
-    shadowOpacity: 0.2,
+    shadowOpacity: 0.3,
     shadowRadius: 6,
     shadowOffset: { width: 0, height: 3 },
   },

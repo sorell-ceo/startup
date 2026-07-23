@@ -2,16 +2,16 @@
 import { Ionicons } from '@expo/vector-icons';
 import { useCallback, useEffect, useState } from 'react';
 import {
-    ActivityIndicator,
-    FlatList,
-    KeyboardAvoidingView,
-    Modal,
-    Platform,
-    StyleSheet,
-    Text,
-    TextInput,
-    TouchableOpacity,
-    View,
+  ActivityIndicator,
+  FlatList,
+  KeyboardAvoidingView,
+  Modal,
+  Platform,
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
 import { supabase } from '../supabaseClient';
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
   backdrop: { flex: 1, backgroundColor: 'rgba(0,0,0,0.4)', justifyContent: 'flex-end' },
   backdropTouchable: { flex: 1 },
   sheet: {
-    backgroundColor: '#fff',
+    backgroundColor: '#17171F',
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     height: '70%',
@@ -212,24 +212,26 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   avatarSmallText: { color: '#fff', fontWeight: 'bold', fontSize: 12 },
-  commentText: { fontSize: 14, color: '#2c3e50', lineHeight: 19 },
-  commentUsername: { fontWeight: '700' },
+  commentText: { fontSize: 14, color: '#ebebeb', lineHeight: 19 },
+  commentUsername: { fontWeight: '500' },
   inputRow: {
     flexDirection: 'row',
     alignItems: 'flex-end',
     paddingHorizontal: 16,
     paddingVertical: 10,
     borderTopWidth: 1,
-    borderTopColor: '#f0f0f0',
+    borderTopColor: '#2c2c2c',
     gap: 10,
   },
   input: {
     flex: 1,
-    backgroundColor: '#f5f5f5',
+    backgroundColor: '#17171F',
     borderRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 10,
     fontSize: 14,
+    borderColor:'#ffffff6e',
+    borderWidth:0.8,
     maxHeight: 100,
   },
   sendBtn: {

@@ -25,14 +25,20 @@ export default function MainTabs() {
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
-        tabBarActiveTintColor: '#3498db',
-        tabBarInactiveTintColor: '#95a5a6',
+        tabBarActiveTintColor: '#E4E4E4',
+        tabBarInactiveTintColor: '#5c6263',
         tabBarStyle: {
+          backgroundColor: '#08080C',
           height: 62,
           paddingBottom: 8,
+          alignContent:'center',
           paddingTop: 6,
           borderTopWidth: 1,
-          borderTopColor: '#eee',
+          marginBottom:12,
+          marginLeft:8,
+          marginRight:8,
+          borderRadius:30,
+          borderTopColor: '#020202',
         },
         tabBarIcon: ({ color, size, focused }) => (
           <Ionicons
