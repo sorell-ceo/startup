@@ -1,8 +1,12 @@
 // src/screens/SignupScreen.js
+import { Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold } from '@expo-google-fonts/manrope';
+import { StackSansHeadline_400Regular, StackSansHeadline_600SemiBold, useFonts } from '@expo-google-fonts/stack-sans-headline';
+import { BlurView } from 'expo-blur';
 import { useEffect, useState } from 'react';
 import {
   ActivityIndicator,
   Alert,
+  ImageBackground,
   StyleSheet,
   Text,
   TextInput,
@@ -20,7 +24,6 @@ const isAllowedEmail = (email) => {
   if (DEVELOPER_EXCEPTION.includes(lower)) return true;
   return ALLOWED_DOMAINS.some((domain) => lower.endsWith(domain));
 };
-
 const isValidUsername = (username) => /^[a-zA-Z0-9_]{3,20}$/.test(username);
 
 export default function SignupScreen({ navigation }) {
@@ -28,11 +31,17 @@ export default function SignupScreen({ navigation }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
-
-  // Username availability state
   const [usernameStatus, setUsernameStatus] = useState(null); // null | 'checking' | 'available' | 'taken' | 'invalid'
 
   const { signUp } = useAuth();
+
+  const [fontsLoaded] = useFonts({
+    StackSansHeadline_400Regular,
+    StackSansHeadline_600SemiBold,
+    Manrope_400Regular,
+    Manrope_500Medium,
+    Manrope_600SemiBold,
+  });
 
   // Debounced live username check
   useEffect(() => {
@@ -64,10 +73,18 @@ export default function SignupScreen({ navigation }) {
       }
 
       setUsernameStatus(data ? 'taken' : 'available');
-    }, 500); // wait 500ms after typing stops before checking
+    }, 500);
 
     return () => clearTimeout(timeout);
   }, [username]);
+
+  if (!fontsLoaded) {
+    return (
+      <View style={[styles.container, { justifyContent: 'center', alignItems: 'center' }]}>
+        <ActivityIndicator color="#3ADBB8" />
+      </View>
+    );
+  }
 
   const renderUsernameHint = () => {
     if (usernameStatus === 'checking') {
@@ -129,82 +146,178 @@ export default function SignupScreen({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Create Account</Text>
-      <Text style={styles.subtitle}>Join with your institutional email</Text>
-
-      <TextInput
-        style={styles.input}
-        placeholder="Username"
-        placeholderTextColor="#999"
-        value={username}
-        onChangeText={setUsername}
-        autoCapitalize="none"
-      />
-      {renderUsernameHint()}
-
-      <TextInput
-        style={[styles.input, { marginTop: 15 }]}
-        placeholder="College Email"
-        placeholderTextColor="#999"
-        value={email}
-        onChangeText={setEmail}
-        autoCapitalize="none"
-        keyboardType="email-address"
-      />
-
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        placeholderTextColor="#999"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry={true}
-        autoCapitalize="none"
-      />
-
-      <TouchableOpacity
-        style={styles.signupButton}
-        onPress={handleSignUp}
-        disabled={loading}
+  <ImageBackground
+    source={require('../../assets/images/login-bg.png')}
+    resizeMode="cover"
+    style={styles.background}
+  >
+    <View style={styles.overlay}>
+      <BlurView
+        intensity={130}
+        tint="dark"
+        experimentalBlurMethod="dimezisBlurView"
+        style={styles.card}
       >
-        {loading ? (
-          <ActivityIndicator color="#fff" />
-        ) : (
-          <Text style={styles.buttonText}>Create Account</Text>
-        )}
-      </TouchableOpacity>
+        <Text style={styles.title}>Create Account</Text>
+        <Text style={styles.subtitle}>Join with your institutional email</Text>
 
-      <TouchableOpacity
-        style={styles.backButton}
-        onPress={() => navigation.goBack()}
-        disabled={loading}
-      >
-        <Text style={styles.backButtonText}>Back to Login</Text>
-      </TouchableOpacity>
+        <TextInput
+          style={styles.input}
+          placeholder="Username"
+          placeholderTextColor="rgba(255,255,255,0.45)"
+          value={username}
+          onChangeText={setUsername}
+          autoCapitalize="none"
+        />
+        {renderUsernameHint()}
+
+        <TextInput
+          style={[styles.input, { marginTop: 15 }]}
+          placeholder="College Email"
+          placeholderTextColor="rgba(255,255,255,0.45)"
+          value={email}
+          onChangeText={setEmail}
+          autoCapitalize="none"
+          keyboardType="email-address"
+        />
+
+        <TextInput
+          style={styles.input}
+          placeholder="Password"
+          placeholderTextColor="rgba(255,255,255,0.45)"
+          value={password}
+          onChangeText={setPassword}
+          secureTextEntry
+          autoCapitalize="none"
+        />
+
+        <TouchableOpacity
+          style={styles.signupButton}
+          onPress={handleSignUp}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#242424" />
+          ) : (
+            <Text style={styles.buttonText}>Create Account</Text>
+          )}
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+          disabled={loading}
+        >
+          <Text style={styles.backButtonText}>Back to Login</Text>
+        </TouchableOpacity>
+      </BlurView>
     </View>
-  );
+  </ImageBackground>
+);
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0A0A0F', justifyContent: 'center', paddingHorizontal: 30 },
-  title: { fontSize: 36, fontWeight: 'bold', color: '#2c3e50', textAlign: 'center', marginBottom: 5 },
-  subtitle: { fontSize: 16, color: '#7f8c8d', textAlign: 'center', marginBottom: 40 },
-  input: {
-    backgroundColor: '#0A0A0F',
-    paddingHorizontal: 15,
-    paddingVertical: 14,
-    borderRadius: 10,
-    marginBottom: 5,
-    borderWidth: 1,
-    borderColor: '#ddd',
-    fontSize: 16,
+  background: {
+    flex: 1,
   },
-  hintChecking: { color: '#7f8c8d', fontSize: 13, marginBottom: 10, marginLeft: 4 },
-  hintAvailable: { color: '#27ae60', fontSize: 13, marginBottom: 10, marginLeft: 4, fontWeight: '600' },
+
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(5,8,12,0.45)',
+    justifyContent: 'center',
+    paddingHorizontal: 26,
+  },
+
+  container: {
+    flex: 1,
+  },
+
+  card: {
+  borderRadius: 28,
+  overflow: 'hidden',
+  padding: 28,
+
+  borderWidth: 1,
+  borderColor: 'rgba(255,255,255,0.14)',
+
+  backgroundColor: 'rgba(255,255,255,0.03)',
+
+  shadowColor: '#000',
+  shadowOpacity: 0.35,
+  shadowRadius: 30,
+  shadowOffset: { width: 0, height: 18 },
+  elevation: 20,
+},
+
+  title: {
+    fontFamily: 'Gloock-Regular',
+    fontSize: 32,
+    color: '#f0f0f0',
+    textAlign: 'center',
+    letterSpacing: -0.8,
+    marginBottom: 8,
+  },
+
+  subtitle: {
+    fontFamily: 'Manrope_400Regular',
+    fontSize: 14,
+    color: 'rgba(255,255,255,0.68)',
+    textAlign: 'center',
+    marginBottom: 32,
+  },
+
+  input: {
+    fontFamily: 'Manrope_400Regular',
+    backgroundColor: 'rgba(255,255,255,0.06)',
+    borderRadius: 18,
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.08)',
+    paddingHorizontal: 18,
+    paddingVertical: 17,
+    marginBottom: 16,
+    fontSize: 14,
+    color: '#FFFFFF',
+  },
+
+  hintChecking: { color: 'rgba(255,255,255,0.5)', fontSize: 13, marginBottom: 10, marginLeft: 4 },
+  hintAvailable: { color: '#53DFC1', fontSize: 13, marginBottom: 10, marginLeft: 4, fontWeight: '600' },
   hintTaken: { color: '#e74c3c', fontSize: 13, marginBottom: 10, marginLeft: 4, fontWeight: '600' },
-  signupButton: { backgroundColor: '#3498db', paddingVertical: 15, borderRadius: 10, alignItems: 'center', marginTop: 10 },
-  buttonText: { color: '#fff', fontSize: 18, fontWeight: '600' },
-  backButton: { paddingVertical: 15, alignItems: 'center', marginTop: 10 },
-  backButtonText: { color: '#3498db', fontSize: 15, fontWeight: '500' },
+
+  signupButton: {
+    marginTop: 12,
+    backgroundColor: '#53DFC1',
+    borderRadius: 16,
+    paddingVertical: 17,
+    alignItems: 'center',
+
+    shadowColor: '#53DFC1',
+    shadowOpacity: 0.12,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 4 },
+    elevation: 4,
+  },
+
+  buttonText: {
+    fontFamily: 'StackSansHeadline_600SemiBold',
+    color: '#1E1E1E',
+    fontSize: 15,
+    letterSpacing: -0.2,
+  },
+
+  backButton: {
+    marginTop: 16,
+    borderRadius: 16,
+    paddingVertical: 16,
+    alignItems: 'center',
+    borderWidth: 1,
+    borderColor: 'rgba(255,255,255,0.12)',
+    backgroundColor: 'rgba(255,255,255,0.03)',
+  },
+
+  backButtonText: {
+    fontFamily: 'StackSansHeadline_400Regular',
+    color: '#e0fcf4',
+    fontSize: 14,
+    letterSpacing: 0.4,
+  },
 });

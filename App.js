@@ -29,7 +29,12 @@ function AppNavigator() {
   }
 
   return (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <Stack.Navigator
+  screenOptions={{
+    headerShown: false,
+    contentStyle: { backgroundColor: '#0A0A0F' },
+  }}
+>
       {user ? (
         <>
           <Stack.Screen name="Main" component={MainTabs} />

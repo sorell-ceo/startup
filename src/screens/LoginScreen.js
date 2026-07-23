@@ -61,55 +61,54 @@ return (
   >
     <View style={styles.overlay}>
       <BlurView
-        intensity={35}
-        tint="dark"
-        style={styles.card}
-      >
-        <Text style={styles.title}>univerce</Text>
-        <Text style={styles.subtitle}>Login to your account</Text>
+  intensity={130}
+  tint="dark"
+  experimentalBlurMethod="dimezisBlurView"
+  style={styles.card}
+>
+  <Text style={styles.title}>univerce</Text>
+  <Text style={styles.subtitle}>Login to your account</Text>
 
-        <TextInput
-          style={styles.input}
-          placeholder="College Email"
-          placeholderTextColor="rgba(255,255,255,0.45)"
-          value={email}
-          onChangeText={setEmail}
-          autoCapitalize="none"
-          keyboardType="email-address"
-        />
+  <TextInput
+    style={styles.input}
+    placeholder="College Email"
+    placeholderTextColor="rgba(255,255,255,0.45)"
+    value={email}
+    onChangeText={setEmail}
+    autoCapitalize="none"
+    keyboardType="email-address"
+  />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Password"
-          placeholderTextColor="rgba(255,255,255,0.45)"
-          value={password}
-          onChangeText={setPassword}
-          secureTextEntry
-          autoCapitalize="none"
-        />
+  <TextInput
+    style={styles.input}
+    placeholder="Password"
+    placeholderTextColor="rgba(255,255,255,0.45)"
+    value={password}
+    onChangeText={setPassword}
+    secureTextEntry
+    autoCapitalize="none"
+  />
 
-        <TouchableOpacity
-          style={styles.loginButton}
-          onPress={handleLogin}
-          disabled={loading}
-        >
-          {loading ? (
-            <ActivityIndicator color="#242424" />
-          ) : (
-            <Text style={styles.buttonText}>Login</Text>
-          )}
-        </TouchableOpacity>
+  <TouchableOpacity
+    style={styles.loginButton}
+    onPress={handleLogin}
+    disabled={loading}
+  >
+    {loading ? (
+      <ActivityIndicator color="#242424" />
+    ) : (
+      <Text style={styles.buttonText}>Login</Text>
+    )}
+  </TouchableOpacity>
 
-        <TouchableOpacity
-          style={styles.signupButton}
-          onPress={() => navigation.navigate('Signup')}
-          disabled={loading}
-        >
-          <Text style={styles.signupButtonText}>
-            Create New Account
-          </Text>
-        </TouchableOpacity>
-      </BlurView>
+  <TouchableOpacity
+    style={styles.signupButton}
+    onPress={() => navigation.navigate('Signup')}
+    disabled={loading}
+  >
+    <Text style={styles.signupButtonText}>Create New Account</Text>
+  </TouchableOpacity>
+</BlurView>
     </View>
   </ImageBackground>
 );
@@ -133,36 +132,34 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    borderRadius: 38,
-    overflow: 'hidden',
+  borderRadius: 28,
+  overflow: 'hidden',
+  padding: 28,
 
-    padding: 28,
+  borderWidth: 1,
+  borderColor: 'rgba(255,255,255,0.14)',
 
-    backgroundColor: 'rgba(255,255,255,0.05)',
+  backgroundColor: 'rgba(255,255,255,0.03)',
 
-    borderWidth: 1,
-    borderColor: 'rgba(255,255,255,0.08)',
-
-    shadowColor: '#000',
-    shadowOpacity: 0.35,
-    shadowRadius: 30,
-    shadowOffset: {
-      width: 0,
-      height: 18,
-    },
-
-    elevation: 20,
-  },
+  shadowColor: '#000',
+  shadowOpacity: 0.35,
+  shadowRadius: 30,
+  shadowOffset: { width: 0, height: 18 },
+  elevation: 20,
+},
 
   title: {
-    fontFamily: 'Gloock-Regular',
-    fontSize: 38,
-    color: '#FFFFFF',
-    textAlign: 'center',
+  fontFamily: 'Gloock-Regular',
+  fontSize: 38,
+  color: '#FFFFFF',
+  textAlign: 'center',
+  letterSpacing: -2,
+  marginBottom: 8,
 
-    letterSpacing: -2,
-    marginBottom: 8,
-  },
+  textShadowColor: 'transparent',
+  textShadowRadius: 0,
+  textShadowOffset: { width: 0, height: 0 },
+},
 
   subtitle: {
     fontFamily: 'Manrope_400Regular',
@@ -188,35 +185,24 @@ const styles = StyleSheet.create({
 
     marginBottom: 16,
 
-    fontSize: 15.5,
+    fontSize: 14,
 
     color: '#FFFFFF',
   },
 
   loginButton: {
-    marginTop: 12,
+  marginTop: 12,
+  backgroundColor: '#53DFC1',
+  borderRadius: 16,
+  paddingVertical: 17,
+  alignItems: 'center',
 
-    backgroundColor: '#53DFC1',
-
-    borderRadius: 22,
-
-    paddingVertical: 17,
-
-    alignItems: 'center',
-
-    shadowColor: '#53DFC1',
-
-    shadowOpacity: 0.35,
-
-    shadowRadius: 20,
-
-    shadowOffset: {
-      width: 0,
-      height: 10,
-    },
-
-    elevation: 10,
-  },
+  shadowColor: '#53DFC1',
+  shadowOpacity: 0.12,
+  shadowRadius: 8,
+  shadowOffset: { width: 0, height: 4 },
+  elevation: 4,
+},
 
   buttonText: {
     fontFamily: 'StackSansHeadline_600SemiBold',
@@ -231,7 +217,7 @@ const styles = StyleSheet.create({
   signupButton: {
     marginTop: 16,
 
-    borderRadius: 22,
+    borderRadius: 16,
 
     paddingVertical: 16,
 

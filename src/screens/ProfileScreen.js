@@ -193,7 +193,7 @@ export default function ProfileScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: colors.ink },
+  container: { flex: 1, backgroundColor: '#101014' },
   headerRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',

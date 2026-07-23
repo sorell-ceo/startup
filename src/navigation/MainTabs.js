@@ -1,8 +1,14 @@
-//MainTabs.js (in navigation folder)
-
-import { Ionicons } from '@expo/vector-icons';
+// MainTabs.js (in navigation folder)
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { BlurView } from 'expo-blur';
 import * as Haptics from 'expo-haptics';
+import { Pressable, StyleSheet } from 'react-native';
+
+import HomeIcon from '../../assets/icons/Home.svg';
+import LikeIcon from '../../assets/icons/Like.svg';
+import MessageIcon from '../../assets/icons/Message.svg';
+import ProfileIcon from '../../assets/icons/Profile.svg';
+import SearchIcon from '../../assets/icons/Search.svg';
 
 import CompetitionScreen from '../screens/CompetitionScreen';
 import HomeScreen from '../screens/HomeScreen';
@@ -12,44 +18,54 @@ import MessagesStack from './MessagesStack';
 
 const Tab = createBottomTabNavigator();
 
-const ICONS = {
-  Home: 'home',
-  Search: 'search',
-  Competition: 'trophy',
-  Messages: 'chatbubble-ellipses',
-  Profile: 'person',
+const ICON_COMPONENTS = {
+  Home: HomeIcon,
+  Search: SearchIcon,
+  Competition: LikeIcon,
+  Messages: MessageIcon,
+  Profile: ProfileIcon,
 };
+
+const ICON_SIZE = 23;
 
 export default function MainTabs() {
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
         headerShown: false,
+        tabBarShowLabel: false,
         tabBarActiveTintColor: '#E4E4E4',
-        tabBarInactiveTintColor: '#5c6263',
+        tabBarInactiveTintColor: 'transparent',
         tabBarStyle: {
-          backgroundColor: '#08080C',
+          position: 'absolute',
+          backgroundColor: '#08080ca9',
           height: 62,
+          paddingLeft:8,
+          paddingRight:8,
           paddingBottom: 8,
-          alignContent:'center',
-          paddingTop: 6,
-          borderTopWidth: 1,
-          marginBottom:12,
-          marginLeft:8,
-          marginRight:8,
-          borderRadius:30,
-          borderTopColor: '#020202',
+          alignContent: 'center',
+          paddingTop: 10,
+          borderTopWidth: 0,
+          marginBottom: 8,
+          marginLeft: 8,
+          marginRight: 8,
+          borderRadius: 40,
+          overflow: 'hidden',
+          elevation: 10,
         },
-        tabBarIcon: ({ color, size, focused }) => (
-          <Ionicons
-            name={focused ? ICONS[route.name] : `${ICONS[route.name]}-outline`}
-            size={size}
-            color={color}
+         tabBarBackground: () => (
+         <BlurView
+           intensity={75}
+           tint="dark"
+            experimentalBlurMethod="dimezisBlurView"
+            style={StyleSheet.absoluteFill}
           />
         ),
-        tabBarButton: (props) => (
-          <TabButtonWithHaptics {...props} />
-        ),
+        tabBarIcon: ({ color }) => {
+          const IconComponent = ICON_COMPONENTS[route.name];
+          return <IconComponent width={ICON_SIZE} height={ICON_SIZE} fill={color} />;
+        },
+        tabBarButton: (props) => <TabButtonWithHaptics {...props} />,
       })}
     >
       <Tab.Screen name="Home" component={HomeScreen} />
@@ -60,9 +76,6 @@ export default function MainTabs() {
     </Tab.Navigator>
   );
 }
-
-// Wraps the default tab button to fire haptic feedback on press
-import { Pressable } from 'react-native';
 
 function TabButtonWithHaptics({ children, onPress, ...rest }) {
   const handlePress = (e) => {

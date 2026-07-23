@@ -261,7 +261,7 @@ export default function HomeScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#08080c' },
+  container: { flex: 1, backgroundColor: '#101014' },
   header: {
     paddingHorizontal: 20,
     paddingVertical: 14,
@@ -271,7 +271,8 @@ const styles = StyleSheet.create({
   logo: {
     fontFamily: 'Gloock-Regular',
     fontSize: 24,
-    color: '#F7F7F7',
+    color: '#e6e6e6',
+    letterSpacing:-0.2,
   },
   chipRow: {
     paddingVertical: 10,
